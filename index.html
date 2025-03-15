@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英語単語クイズ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>英語単語クイズ</h2>
+        <p id="question">Loading...</p>
+        <div id="options"></div>
+        <p id="feedback"></p>
+        <button id="next" style="display:none;" onclick="nextQuestion()">次の問題へ</button>
+    </div>
+    <button class="stats-button" onclick="toggleStats()">正答率を見る</button>
+    <div class="stats-container" id="stats-container" style="display: none;"></div>
+    <button class="sort-button" style="display:none;" onclick="toggleSort()">並べ替えをする</button>
+    <button class="low-accuracy-button" id="low-accuracy-button" onclick="toggleLowAccuracyMode()">低正答率モード</button>
+    <script src="script.js"></script>
+</body>
+</html>
