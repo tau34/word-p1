@@ -122,7 +122,7 @@ function refreshStats() {
     });
 }
 
-function LowAccuracyMode() {
+function toggleLowAccuracyMode() {
     lowAccuracyMode = !lowAccuracyMode;
     document.getElementById("low-accuracy-mode").textContent = lowAccuracyMode ? "低正答率モード" : "通常モード";
     loadQuestion();
