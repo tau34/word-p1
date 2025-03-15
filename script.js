@@ -79,7 +79,50 @@ function nextQuestion() {
     loadQuestion();
 }
 
-function toggleLowAccuracyMode() {
+function toggleSort() {
+    isSorted = !isSorted;
+    refreshStats();
+}
+
+function toggleStats() {
+    refreshStats();
+
+    let statsContainer = document.getElementById("stats-container");
+    let sortButton = document.querySelector(".sort-button");
+
+    if (statsContainer.style.display === "none") {
+        statsContainer.style.display = "block";
+        sortButton.style.display = "block";
+    } else {
+        statsContainer.style.display = "none";
+        sortButton.style.display = "none";
+    }
+}
+
+function refreshStats() {
+    let statsContainer = document.getElementById("stats-container");
+    statsContainer.innerHTML = "";
+    
+    let statsData = loadStats();
+    let sortedData = data.map(([english, japanese]) => {
+        let stat = statsData[english] || { correct: 0, total: 0 };
+        let accuracy = stat.total > 0 ? (stat.correct / stat.total) : -1;
+        return { english, japanese, accuracy, correct: stat.correct, total: stat.total };
+    });
+    
+    if (isSorted) {
+        sortedData.sort((a, b) => a.accuracy - b.accuracy);
+    }
+    
+    sortedData.forEach(({ english, japanese, accuracy, correct, total }) => {
+        let accuracyText = total > 0 ? (accuracy * 100).toFixed(2) + "%" : "N/A";
+        let statText = document.createElement("p");
+        statText.textContent = `${english} (${japanese}): ${accuracyText} (正解: ${correct} / 回数: ${total})`;
+        statsContainer.appendChild(statText);
+    });
+}
+
+function LowAccuracyMode() {
     lowAccuracyMode = !lowAccuracyMode;
     document.getElementById("low-accuracy-mode").textContent = lowAccuracyMode ? "低正答率モード" : "通常モード";
     loadQuestion();
