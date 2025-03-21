@@ -27,8 +27,13 @@ function saveStats(stats) {
 function getRandomQuestion() {
     let filteredData = lowAccuracyMode ? data.filter(([english]) => {
         let stat = stats[english] || { correct: 0, total: 0 };
-        return stat.total === 0 || (stat.correct / stat.total) < 0.5;
+        return stat.total === 0;
     }) : data;
+
+    if (filteredData.length === 0) filteredData = data.filter(([english]) => {
+        let stat = stats[english] || { correct: 0, total: 0 };
+        return (stat.correct / stat.total) < 0.5;
+    });
     
     if (filteredData.length === 0) filteredData = data;
     return filteredData[Math.floor(Math.random() * filteredData.length)];
