@@ -4,6 +4,8 @@ let stats = loadStats();
 let currentQuestion = {};
 let isSorted = false;
 let lowAccuracyMode = false;
+let startIndex = 0;
+let endIndex = data.length - 1;
 
 function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
@@ -25,17 +27,20 @@ function saveStats(stats) {
 }
 
 function getRandomQuestion() {
-    let filteredData = lowAccuracyMode ? data.filter(([english]) => {
+    let slicedData = data.slice(startIndex, endIndex + 1);
+    if (slicedData.length === 0) slicedData = data;
+
+    let filteredData = lowAccuracyMode ? slicedData.filter(([english]) => {
         let stat = stats[english] || { correct: 0, total: 0 };
         return stat.total === 0;
-    }) : data;
+    }) : slicedData;
 
-    if (filteredData.length === 0) filteredData = data.filter(([english]) => {
+    if (filteredData.length === 0 && lowAccuracyMode) filteredData = slicedData.filter(([english]) => {
         let stat = stats[english] || { correct: 0, total: 0 };
         return (stat.correct / stat.total) < 0.5;
     });
     
-    if (filteredData.length === 0) filteredData = data;
+    if (filteredData.length === 0 && lowAccuracyMode) filteredData = slicedData;
     return filteredData[Math.floor(Math.random() * filteredData.length)];
 }
 
@@ -129,8 +134,14 @@ function refreshStats() {
 
 function toggleLowAccuracyMode() {
     lowAccuracyMode = !lowAccuracyMode;
-    document.getElementById("low-accuracy-button").textContent = lowAccuracyMode ? "低正答率モード" : "通常モード";
+    document.getElementById("low-accuracy-button").textContent = lowAccuracyMode ? "通常モード" : "低正答率モード";
     loadQuestion();
 }
+
+function setRange() {
+    startIndex = parseInt(document.getElementById("startIndex").value, 10) - 1;
+    endIndex = parseInt(document.getElementById("endIndex").value, 10) - 1;
+    loadQuestion();
+};
 
 window.onload = loadQuestion;

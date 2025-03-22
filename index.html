@@ -14,6 +14,14 @@
         <p id="feedback"></p>
         <button id="next" style="display:none;" onclick="nextQuestion()">次の問題へ</button>
     </div>
+    <div class="settings">
+        <h2>出題範囲設定</h2>
+        <label for="startIndex">開始:</label>
+        <input type="number" id="startIndex" min="1" max="1680" value="1">
+        <label for="endIndex">終了:</label>
+        <input type="number" id="endIndex" min="1" max="1680" value="1680">
+        <button id="setRange" onclick="setRange()">範囲を設定</button>
+    </div>
     <button class="stats-button" onclick="toggleStats()">正答率を見る</button>
     <div class="stats-container" id="stats-container" style="display: none;"></div>
     <button class="sort-button" style="display:none;" onclick="toggleSort()">並べ替えをする</button>
